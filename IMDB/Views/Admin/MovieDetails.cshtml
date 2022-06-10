@@ -1,0 +1,103 @@
+﻿@model IMDB.ViewModels.MovieActors_vm
+
+@{
+    ViewBag.Title = "MovieDetails";
+    Layout = null;
+}
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Content/Navigation.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/MovieDetailsPage.css">
+    <title>Edit Movie</title>
+
+  <style>
+      img {
+          width:300px;
+          height:300px;
+      }
+  </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+
+            <i class=''></i> IMDB
+        </a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <!--Menu-->
+        <ul class="navbar">
+            <li>@Html.ActionLink("Search", "search", "Search", new { id = "" }, new { @class = "btn" })</li>
+            <li>  @Html.ActionLink("Home", "Home", "User")</li>
+            <li>  @Html.ActionLink("Movie", "Index")</li>
+            <li>  @Html.ActionLink("Actors", "Actors")</li>
+            <li>  @Html.ActionLink("Directors", "Directors")</li>
+        </ul>
+        <a>@Html.ActionLink("User Name", "SignUp", null, new { @class = "btn" })</a>
+
+    </header>
+    <main>
+
+    <h2>Movie Details</h2>
+
+    <div class="movie__details">
+   
+  
+        <dl class="dl-horizontal">
+            <dt>
+                Movie Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Movie.Movie_Name)
+            </dd>
+
+           
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Movie.ImgPath)
+            </dt>
+
+            <dd>
+                <img src="~/ViewAssets/@Path.GetFileName(Model.Movie.ImgPath)"/>
+            </dd>
+
+         
+
+            <dt>
+                Director
+            </dt>
+
+            <dd>
+                @Html.ActionLink(Model.Movie.Director.FirstName + " " + Model.Movie.Director.LastName, "DirectorProfile", new { id = Model.Movie.Director_ID })
+            </dd>
+
+        
+
+            <dt>
+                Actors
+            </dt>
+
+            @foreach (var movieActor in Model.MovieActors)
+            {
+<dd>
+    @Html.ActionLink(movieActor.Actor.FirstName + " " + movieActor.Actor.LastName, "ActorProfile", new { id = movieActor.Actor.Actor_ID }) <br />
+</dd>}
+
+
+        </dl>
+    </div>
+    </main>
+    <footer>
+
+        @Html.ActionLink("Edit", "EditMovie", new { id = Model.Movie.Movie_ID }) |
+        @Html.ActionLink("Delete", "DeleteMovie", new { id = Model.Movie.Movie_ID }) |
+        @Html.ActionLink("Back to List", "Index")
+
+    </footer>
+</body>
+</html>

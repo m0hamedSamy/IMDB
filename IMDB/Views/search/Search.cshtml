@@ -1,0 +1,87 @@
+﻿@using IMDB.ViewModels
+@model SearchViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Search</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <link href="~/Styles/search.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="@Url.Action("Home","user")">IMDb</a>
+        <div class="search-container">
+            @using (Html.BeginForm())
+            {
+                <input class="input" type="text" name="SearchValue" />
+                <input type="submit" value="Search" />
+            }
+        </div>
+    </div>
+
+    <table>
+        <caption>Actors and Directors</caption>
+        <thead>
+            <tr>
+                <th scope="col">Type</th>
+                <th scope="col">name</th>
+                <th scope="col">Age</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Actors)
+            {
+                <tr>
+                    <td>actor</td>
+                    <td> @Html.ActionLink(item.FirstName + " " + item.LastName, "ActorProfile", "Admin", new { id = item.Actor_ID }, new { @class = "ActorLink" })</td>
+                    <td>@item.Age</td>
+                </tr>
+            }
+
+
+            @foreach (var item in Model.Directors)
+            {
+                <tr>
+                    <td>director</td>
+                    <td>@Html.ActionLink(item.FirstName + " " + item.LastName, "DirectorProfile", "Admin", new { id = item.Director_ID }, new { @class = "DirectorLink" })</td>
+                    <td>@item.Age</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <table>
+        <caption>Movies</caption>
+        <thead>
+            <tr>
+                <th scope="col">Movie name</th>
+                <th scope="col">Image</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Movies)
+            {
+                <tr>
+
+                    <td>@Html.ActionLink(item.Movie_Name, "MovieDetails", "Admin", new { id = item.Movie_ID }, new { @class = "Movielink" })</td>
+                    <td><img src="~/Images/@Path.GetFileName(item.ImgPath)" width="100" height="100" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
